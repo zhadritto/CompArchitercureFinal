@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>J'adore — Кафе-бар</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:      #1A7C74;
+      --teal-lt:   #D0EFEC;
+      --teal-dk:   #0F524D;
+      --teal-md:   #2AA39A;
+      --coral:     #F07060;
+      --coral-lt:  #FDE8E5;
+      --coral-dk:  #C94A38;
+      --amber:     #F2B84B;
+      --amber-lt:  #FEF3DC;
+      --cream:     #FDFAF5;
+      --beige:     #F5EFE2;
+      --beige-dk:  #D9CCB0;
+      --text:      #1C2B28;
+      --text-lt:   #6B8C88;
+      --white:     #FFFFFF;
+      --shadow-t:  rgba(26,124,116,.18);
+      --shadow-c:  rgba(240,112,96,.18);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:var(--cream);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:var(--teal-lt);}
+    ::-webkit-scrollbar-thumb{background:var(--teal-md);border-radius:5px;}
+
+    /* ── NAV ── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:900;
+      background:rgba(253,250,245,.94);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--teal-lt);
+      padding:0 52px;height:66px;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .nav-logo{
+      font-family:'Great Vibes',cursive;font-size:2.2rem;
+      color:var(--teal-dk);text-decoration:none;letter-spacing:1px;
+    }
+    .nav-links{display:flex;gap:30px;list-style:none;align-items:center;}
+    .nav-links a{
+      font-size:.9rem;letter-spacing:.6px;color:var(--text-lt);
+      text-decoration:none;transition:color .22s;position:relative;
+    }
+    .nav-links a::after{
+      content:'';position:absolute;bottom:-3px;left:0;right:0;
+      height:1.5px;background:var(--teal-md);
+      transform:scaleX(0);transform-origin:center;transition:transform .28s;
+    }
+    .nav-links a:hover{color:var(--teal);}
+    .nav-links a:hover::after{transform:scaleX(1);}
+    .cart-nav-btn{
+      position:relative;background:none;border:none;cursor:pointer;
+      padding:8px;font-size:1.35rem;transition:transform .2s;
+    }
+    .cart-nav-btn:hover{transform:scale(1.1);}
+    .cart-badge{
+      position:absolute;top:0;right:0;
+      background:var(--coral-dk);color:#fff;
+      font-size:.62rem;font-weight:700;
+      width:17px;height:17px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      opacity:0;transform:scale(0);
+      transition:opacity .3s,transform .3s;
+    }
+    .cart-badge.show{opacity:1;transform:scale(1);}
+
+    /* ── HERO ── */
+    .hero{
+      min-height:100vh;
+      background:
+        radial-gradient(ellipse at 15% 60%, rgba(42,163,154,.28) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 25%, rgba(240,112,96,.22) 0%, transparent 50%),
+        radial-gradient(ellipse at 55% 85%, rgba(242,184,75,.18) 0%, transparent 45%),
+        var(--beige);
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      text-align:center;
+      padding:110px 40px 80px;
+      position:relative;overflow:hidden;
+    }
+
+    /* floating drops */
+    .drop{
+      position:absolute;pointer-events:none;opacity:0;
+      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation:dropFall linear infinite;
+    }
+    @keyframes dropFall{
+      0%{transform:translateY(-40px) rotate(0deg);opacity:0;}
+      10%{opacity:.5;}
+      90%{opacity:.3;}
+      100%{transform:translateY(110vh) rotate(180deg);opacity:0;}
+    }
+
+    .hero-eyebrow{
+      display:inline-flex;align-items:center;gap:10px;
+      background:rgba(255,255,255,.7);border:1px solid var(--teal-lt);
+      border-radius:40px;padding:7px 22px;
+      font-size:.72rem;letter-spacing:3px;color:var(--teal-dk);
+      text-transform:uppercase;margin-bottom:26px;
+      animation:fadeUp .8s ease both;
+    }
+    .hero h1{
+      font-family:'Great Vibes',cursive;
+      font-size:clamp(5rem,13vw,10rem);
+      color:var(--teal-dk);line-height:1;
+      animation:fadeUp .9s ease .1s both;
+      filter:drop-shadow(0 4px 28px rgba(15,82,77,.16));
+    }
+    .hero-tagline{
+      font-family:'Playfair Display',serif;font-style:italic;
+      font-size:clamp(.95rem,2vw,1.25rem);
+      color:var(--text-lt);margin:18px 0 32px;
+      animation:fadeUp .9s ease .2s both;
+      max-width:460px;
+    }
+    .dots-row{
+      display:flex;gap:8px;justify-content:center;
+      animation:fadeUp .9s ease .28s both;margin-bottom:30px;
+    }
+    .dot{
+      width:9px;height:9px;border-radius:50%;
+      animation:dotPulse 2.8s ease-in-out infinite;
+    }
+    .dot:nth-child(1){background:var(--teal-md);animation-delay:0s;}
+    .dot:nth-child(2){background:var(--coral);animation-delay:.3s;}
+    .dot:nth-child(3){background:var(--amber);animation-delay:.6s;}
+    .dot:nth-child(4){background:var(--teal-md);animation-delay:.9s;}
+    .dot:nth-child(5){background:var(--coral);animation-delay:1.2s;}
+    @keyframes dotPulse{0%,100%{transform:scale(1);opacity:.6;}50%{transform:scale(1.3);opacity:1;}}
+
+    .hero-actions{
+      display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+      animation:fadeUp .9s ease .34s both;
+    }
+    .btn-teal{
+      background:linear-gradient(135deg,var(--teal),var(--teal-dk));
+      color:#fff;border:none;padding:14px 34px;border-radius:50px;
+      font-family:'DM Sans',sans-serif;font-size:.95rem;letter-spacing:.8px;
+      cursor:pointer;text-decoration:none;
+      box-shadow:0 8px 24px var(--shadow-t);
+      transition:transform .25s,box-shadow .25s;
+    }
+    .btn-teal:hover{transform:translateY(-3px);box-shadow:0 14px 32px var(--shadow-t);}
+    .btn-ghost{
+      background:transparent;border:1.5px solid var(--teal-md);
+      color:var(--teal-dk);padding:14px 34px;border-radius:50px;
+      font-family:'DM Sans',sans-serif;font-size:.95rem;letter-spacing:.8px;
+      cursor:pointer;text-decoration:none;transition:all .25s;
+    }
+    .btn-ghost:hover{background:var(--teal-lt);transform:translateY(-3px);}
+
+    .hero-deco{
+      position:absolute;pointer-events:none;font-size:10rem;
+      opacity:.06;line-height:1;
+    }
+    .hero-deco.l{left:-30px;bottom:40px;transform:rotate(-12deg);}
+    .hero-deco.r{right:-30px;top:70px;transform:rotate(10deg);}
+
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(26px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    /* ── SECTIONS ── */
+    .sec{padding:88px 52px;}
+    .sec-label{
+      text-align:center;font-size:.7rem;letter-spacing:4px;
+      color:var(--coral);text-transform:uppercase;margin-bottom:6px;
+    }
+    .sec-title{
+      text-align:center;font-family:'Great Vibes',cursive;
+      font-size:clamp(2.5rem,5vw,4rem);color:var(--teal-dk);margin-bottom:8px;
+    }
+    .sec-desc{
+      text-align:center;font-style:italic;font-family:'Playfair Display',serif;
+      color:var(--text-lt);font-size:1rem;
+      max-width:460px;margin:0 auto 48px;line-height:1.75;
+    }
+    .divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:10px 0 42px;}
+    .div-line{flex:1;max-width:100px;height:1px;background:var(--beige-dk);}
+    .div-gem{color:var(--teal-md);font-size:.85rem;}
+
+    /* ── MENU ── */
+    #menu{background:var(--cream);}
+    .cat-tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:48px;}
+    .cat-tab{
+      background:var(--white);border:1.5px solid var(--teal-lt);
+      color:var(--text-lt);padding:9px 26px;border-radius:50px;
+      font-size:.88rem;letter-spacing:.4px;cursor:pointer;
+      transition:all .22s;
+    }
+    .cat-tab.on,.cat-tab:hover{
+      background:var(--teal-lt);border-color:var(--teal-md);color:var(--teal-dk);
+    }
+    .cat-panel{display:none;}.cat-panel.on{display:block;}
+
+    .cards{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:20px;max-width:1140px;margin:0 auto;
+    }
+
+    /* card */
+    .card{
+      background:var(--white);border-radius:22px;overflow:hidden;
+      border:1px solid var(--teal-lt);
+      box-shadow:0 4px 20px rgba(26,124,116,.07);
+      transition:transform .3s,box-shadow .3s;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(26,124,116,.13);}
+    .card-img{width:100%;height:180px;object-fit:cover;display:block;}
+    .card-body{padding:16px 18px 20px;}
+    .card-name{
+      font-family:'Playfair Display',serif;font-size:1.08rem;
+      color:var(--text);margin-bottom:3px;
+    }
+    .card-sub{font-size:.72rem;color:var(--text-lt);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+    .card-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+    .card-price{font-family:'Great Vibes',cursive;font-size:1.5rem;color:var(--teal-dk);}
+    .card-wt{font-size:.78rem;color:var(--text-lt);background:var(--beige);padding:4px 10px;border-radius:20px;}
+    .add-btn{
+      width:100%;padding:10px;border-radius:14px;border:none;
+      background:var(--teal-lt);
+      color:var(--teal-dk);font-size:.88rem;letter-spacing:.4px;
+      cursor:pointer;transition:all .22s;
+      display:flex;align-items:center;justify-content:center;gap:7px;
+    }
+    .add-btn:hover,.add-btn.added{
+      background:linear-gradient(135deg,var(--teal),var(--teal-dk));
+      color:#fff;transform:scale(1.02);
+    }
+
+    .menu-loading{
+      text-align:center;padding:60px 20px;
+      color:var(--text-lt);font-style:italic;font-size:1.1rem;
+    }
+    .loading-spinner{
+      width:36px;height:36px;border:3px solid var(--teal-lt);
+      border-top-color:var(--teal);border-radius:50%;
+      animation:spin .8s linear infinite;
+      margin:0 auto 16px;
+    }
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* ── CART SIDEBAR ── */
+    .cart-overlay{
+      position:fixed;inset:0;z-index:1100;
+      background:rgba(28,43,40,.45);
+      opacity:0;visibility:hidden;transition:opacity .33s,visibility .33s;
+    }
+    .cart-overlay.open{opacity:1;visibility:visible;}
+    .cart-drawer{
+      position:fixed;top:0;right:0;bottom:0;z-index:1101;
+      width:min(450px,100vw);
+      background:var(--white);
+      box-shadow:-14px 0 50px rgba(28,43,40,.16);
+      transform:translateX(100%);transition:transform .38s cubic-bezier(.25,.8,.25,1);
+      display:flex;flex-direction:column;
+    }
+    .cart-drawer.open{transform:translateX(0);}
+
+    .cart-top{
+      padding:22px 26px 18px;
+      background:linear-gradient(135deg,var(--teal-dk),var(--teal));
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .cart-top h2{font-family:'Great Vibes',cursive;font-size:2rem;color:#fff;}
+    .cart-close{
+      background:rgba(255,255,255,.22);border:none;color:#fff;
+      width:34px;height:34px;border-radius:50%;font-size:1rem;
+      cursor:pointer;transition:background .2s;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .cart-close:hover{background:rgba(255,255,255,.38);}
+
+    .cart-body{flex:1;overflow-y:auto;padding:18px 26px;}
+    .cart-body::-webkit-scrollbar{width:4px;}
+    .cart-body::-webkit-scrollbar-thumb{background:var(--teal-lt);}
+
+    .cart-empty{
+      text-align:center;padding:58px 20px;color:var(--text-lt);
+    }
+    .cart-empty .big-icon{font-size:4rem;display:block;margin-bottom:14px;opacity:.45;}
+    .cart-empty p{font-style:italic;font-size:1.02rem;}
+
+    .cart-item{
+      display:flex;gap:12px;align-items:center;
+      padding:13px 0;border-bottom:1px solid var(--teal-lt);
+      animation:fadeUp .3s ease both;
+    }
+    .cart-item-img{
+      width:60px;height:60px;border-radius:12px;object-fit:cover;
+      flex-shrink:0;border:1px solid var(--teal-lt);
+    }
+    .ci-info{flex:1;}
+    .ci-name{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--text);margin-bottom:2px;}
+    .ci-price{font-family:'Great Vibes',cursive;font-size:1.2rem;color:var(--teal-dk);}
+    .ci-controls{display:flex;align-items:center;gap:0;}
+    .qty-btn{
+      width:27px;height:27px;border-radius:50%;
+      border:1.5px solid var(--teal-lt);
+      background:var(--white);color:var(--teal-dk);font-size:.95rem;
+      cursor:pointer;transition:all .2s;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .qty-btn:hover{background:var(--teal-lt);}
+    .qty-val{width:30px;text-align:center;font-size:.95rem;color:var(--text);}
+    .ci-remove{
+      background:none;border:none;color:var(--text-lt);font-size:.95rem;
+      cursor:pointer;padding:4px;transition:color .2s;
+    }
+    .ci-remove:hover{color:var(--coral-dk);}
+
+    .cart-footer{
+      padding:18px 26px 26px;
+      border-top:1px solid var(--teal-lt);background:var(--beige);
+    }
+    .cart-total-row{
+      display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;
+    }
+    .cart-total-label{font-size:.8rem;letter-spacing:1px;color:var(--text-lt);text-transform:uppercase;}
+    .cart-total-val{font-family:'Great Vibes',cursive;font-size:2rem;color:var(--teal-dk);}
+    .checkout-btn{
+      width:100%;padding:14px;border-radius:50px;border:none;
+      background:linear-gradient(135deg,var(--teal),var(--teal-dk));
+      color:#fff;font-size:1rem;letter-spacing:.8px;cursor:pointer;
+      box-shadow:0 8px 24px var(--shadow-t);
+      transition:transform .22s,box-shadow .22s;
+    }
+    .checkout-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px var(--shadow-t);}
+    .checkout-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+    /* ── ORDER MODAL ── */
+    .modal-overlay{
+      position:fixed;inset:0;z-index:1200;
+      background:rgba(28,43,40,.55);
+      display:flex;align-items:center;justify-content:center;
+      padding:20px;
+      opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;
+    }
+    .modal-overlay.open{opacity:1;visibility:visible;}
+    .modal{
+      background:var(--white);border-radius:26px;
+      width:100%;max-width:500px;max-height:90vh;overflow-y:auto;
+      padding:38px;animation:modalIn .32s ease both;position:relative;
+    }
+    @keyframes modalIn{
+      from{transform:scale(.93) translateY(18px);opacity:0;}
+      to{transform:scale(1) translateY(0);opacity:1;}
+    }
+    .modal h2{font-family:'Great Vibes',cursive;font-size:2.4rem;color:var(--teal-dk);margin-bottom:5px;}
+    .modal-sub{font-style:italic;color:var(--text-lt);margin-bottom:26px;font-size:.9rem;}
+    .form-group{margin-bottom:16px;}
+    .form-label{
+      display:block;font-size:.74rem;letter-spacing:1.5px;
+      text-transform:uppercase;color:var(--text-lt);margin-bottom:6px;
+    }
+    .form-input,.form-textarea{
+      width:100%;padding:11px 15px;border-radius:13px;
+      border:1.5px solid var(--teal-lt);
+      font-family:'DM Sans',sans-serif;font-size:.95rem;
+      color:var(--text);background:var(--white);
+      outline:none;transition:border-color .22s;
+    }
+    .form-input:focus,.form-textarea:focus{border-color:var(--teal-md);}
+    .form-textarea{resize:vertical;min-height:82px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .modal-order-summary{
+      background:var(--beige);border-radius:15px;
+      padding:15px 17px;margin-bottom:18px;
+    }
+    .mos-title{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-lt);margin-bottom:10px;}
+    .mos-item{
+      display:flex;justify-content:space-between;
+      font-size:.9rem;color:var(--text);padding:4px 0;
+      border-bottom:1px dashed var(--beige-dk);
+    }
+    .mos-item:last-child{border:none;}
+    .mos-total{
+      display:flex;justify-content:space-between;margin-top:10px;
+      font-weight:600;font-size:1rem;color:var(--teal-dk);
+    }
+    .modal-close-x{
+      position:absolute;top:16px;right:18px;
+      background:var(--teal-lt);border:none;
+      width:30px;height:30px;border-radius:50%;
+      color:var(--teal-dk);font-size:.95rem;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:background .2s;
+    }
+    .modal-close-x:hover{background:var(--teal-lt);filter:brightness(.9);}
+
+    /* success */
+    .success-screen{text-align:center;padding:18px 0;display:none;}
+    .success-screen.show{display:block;}
+    .success-icon{font-size:4.2rem;margin-bottom:14px;animation:popIn .5s ease both;}
+    @keyframes popIn{from{transform:scale(0);}to{transform:scale(1);}}
+    .success-screen h3{font-family:'Great Vibes',cursive;font-size:2.6rem;color:var(--teal-dk);margin-bottom:10px;}
+    .success-screen p{color:var(--text-lt);font-size:1rem;line-height:1.75;}
+
+    /* ── AI CHATBOT ── */
+    #chatbot{
+      background:
+        radial-gradient(ellipse at 0% 100%, rgba(42,163,154,.22) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 0%, rgba(240,112,96,.16) 0%, transparent 50%),
+        var(--amber-lt);
+      position:relative;overflow:hidden;
+    }
+    #chatbot::before{
+      content:'🌿';position:absolute;font-size:14rem;opacity:.06;
+      right:-40px;top:-30px;pointer-events:none;
+    }
+
+    .chat-wrap{
+      max-width:680px;margin:0 auto;
+      background:rgba(255,255,255,.9);backdrop-filter:blur(20px);
+      border-radius:28px;border:1px solid rgba(255,255,255,.95);
+      box-shadow:0 24px 60px rgba(26,124,116,.14);
+      overflow:hidden;
+    }
+    .chat-head{
+      background:linear-gradient(135deg,var(--teal-dk) 0%,var(--teal) 100%);
+      padding:20px 26px;display:flex;align-items:center;gap:14px;
+    }
+    .chat-avatar{
+      width:46px;height:46px;border-radius:50%;
+      background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);
+      display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;
+    }
+    .chat-head-text h3{font-family:'Great Vibes',cursive;font-size:1.55rem;color:#fff;margin-bottom:2px;}
+    .chat-head-text p{font-size:.74rem;color:rgba(255,255,255,.76);letter-spacing:.4px;}
+    .online-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:#7BF0A0;display:inline-block;margin-right:5px;
+      box-shadow:0 0 6px #7BF0A0;
+    }
+
+    .chat-msgs{
+      height:360px;overflow-y:auto;
+      padding:20px 22px;display:flex;flex-direction:column;gap:12px;
+      scroll-behavior:smooth;
+    }
+    .chat-msgs::-webkit-scrollbar{width:4px;}
+    .chat-msgs::-webkit-scrollbar-thumb{background:var(--teal-lt);border-radius:4px;}
+
+    .msg{max-width:82%;animation:msgPop .3s ease both;}
+    @keyframes msgPop{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+    .msg.bot{align-self:flex-start;}
+    .msg.user{align-self:flex-end;}
+    .bubble{
+      padding:11px 17px;border-radius:20px;
+      font-size:.93rem;line-height:1.62;
+    }
+    .msg.bot .bubble{
+      background:var(--teal-lt);border:1px solid rgba(42,163,154,.3);
+      border-bottom-left-radius:4px;color:var(--text);
+    }
+    .msg.user .bubble{
+      background:linear-gradient(135deg,var(--teal),var(--teal-dk));
+      color:#fff;border-bottom-right-radius:4px;
+    }
+    .msg-time{font-size:.66rem;color:var(--text-lt);margin-top:4px;}
+    .msg.user .msg-time{text-align:right;}
+
+    .quick-area{display:flex;flex-wrap:wrap;gap:7px;padding:0 22px 12px;}
+    .qbtn{
+      background:var(--white);border:1.5px solid var(--teal-lt);
+      color:var(--teal-dk);border-radius:50px;
+      padding:6px 15px;font-size:.85rem;cursor:pointer;transition:all .2s;
+    }
+    .qbtn:hover{background:var(--teal-lt);border-color:var(--teal-md);transform:translateY(-1px);}
+
+    .chat-input-row{
+      padding:12px 20px;border-top:1px solid var(--teal-lt);
+      display:flex;gap:9px;align-items:center;
+    }
+    .chat-in{
+      flex:1;border:1.5px solid var(--teal-lt);border-radius:50px;
+      padding:10px 18px;font-family:'DM Sans',sans-serif;
+      font-size:.92rem;background:var(--white);color:var(--text);
+      outline:none;transition:border-color .22s;
+    }
+    .chat-in:focus{border-color:var(--teal-md);}
+    .chat-send{
+      width:42px;height:42px;border-radius:50%;flex-shrink:0;
+      background:linear-gradient(135deg,var(--teal),var(--teal-dk));
+      border:none;color:#fff;font-size:.95rem;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:transform .2s,box-shadow .2s;
+    }
+    .chat-send:hover{transform:scale(1.1);box-shadow:0 4px 16px var(--shadow-t);}
+    .chat-send:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+    .typing-bubble{
+      background:var(--teal-lt);border:1px solid rgba(42,163,154,.3);
+      border-radius:20px;border-bottom-left-radius:4px;
+      padding:13px 17px;display:flex;gap:5px;align-items:center;
+    }
+    .typing-bubble span{
+      width:7px;height:7px;border-radius:50%;
+      background:var(--teal-md);animation:typeBounce 1.2s infinite;
+    }
+    .typing-bubble span:nth-child(2){animation-delay:.2s;}
+    .typing-bubble span:nth-child(3){animation-delay:.4s;}
+    @keyframes typeBounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-8px);}}
+
+    .reco-card{
+      background:linear-gradient(135deg,var(--teal-lt),var(--amber-lt));
+      border:2px solid var(--teal-md);border-radius:18px;
+      padding:16px 18px;margin-top:5px;animation:fadeUp .42s ease both;
+    }
+    .reco-card h4{font-family:'Great Vibes',cursive;font-size:1.7rem;color:var(--teal-dk);margin-bottom:5px;}
+    .reco-card p{font-size:.9rem;color:var(--text);line-height:1.68;}
+    .reco-add-btn{
+      margin-top:11px;padding:8px 20px;border-radius:50px;
+      background:linear-gradient(135deg,var(--teal),var(--teal-dk));
+      border:none;color:#fff;font-size:.88rem;cursor:pointer;transition:transform .2s;
+    }
+    .reco-add-btn:hover{transform:scale(1.04);}
+
+    /* ── ABOUT ── */
+    #about{background:var(--white);}
+    .about-inner{max-width:1080px;margin:0 auto;display:flex;gap:60px;align-items:center;flex-wrap:wrap;}
+    .about-img-wrap{flex:1;min-width:280px;position:relative;}
+    .about-img{
+      width:100%;border-radius:24px;height:420px;object-fit:cover;
+      box-shadow:0 22px 60px var(--shadow-t);display:block;
+    }
+    .about-badge-box{
+      position:absolute;bottom:-16px;right:-16px;
+      background:var(--teal-dk);color:#fff;border-radius:16px;
+      padding:14px 20px;text-align:center;
+      box-shadow:0 10px 28px var(--shadow-t);
+    }
+    .abn{font-family:'Great Vibes',cursive;font-size:2.4rem;display:block;line-height:1;}
+    .abt{font-size:.66rem;letter-spacing:1.5px;opacity:.85;}
+    .about-text{flex:1.3;}
+    .about-text h2{font-family:'Great Vibes',cursive;font-size:3rem;color:var(--teal-dk);margin-bottom:16px;}
+    .about-text p{font-size:1rem;color:var(--text-lt);line-height:1.85;margin-bottom:12px;}
+    .features{list-style:none;margin-top:20px;}
+    .features li{display:flex;gap:12px;align-items:flex-start;margin-bottom:11px;font-size:.97rem;color:var(--text);}
+    .feat-ico{color:var(--teal-md);flex-shrink:0;margin-top:3px;}
+
+    /* ── FOOTER ── */
+    footer{
+      background:linear-gradient(135deg,var(--teal-dk),var(--teal));
+      color:#fff;text-align:center;padding:52px 40px;
+    }
+    .f-logo{font-family:'Great Vibes',cursive;font-size:3rem;margin-bottom:8px;}
+    .f-links{display:flex;justify-content:center;gap:28px;margin:20px 0;flex-wrap:wrap;}
+    .f-links a{color:rgba(255,255,255,.72);text-decoration:none;font-size:.88rem;transition:color .2s;}
+    .f-links a:hover{color:#fff;}
+    .f-divider{width:40px;height:1px;background:rgba(255,255,255,.28);margin:18px auto;}
+    footer p{opacity:.72;font-size:.86rem;line-height:1.9;}
+    footer .copy{opacity:.42;font-size:.76rem;margin-top:16px;}
+
+    /* ── TOAST ── */
+    .toast{
+      position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
+      z-index:2000;background:var(--text);color:#fff;
+      padding:11px 24px;border-radius:50px;
+      font-size:.87rem;letter-spacing:.4px;
+      opacity:0;transition:opacity .3s,transform .3s;
+      pointer-events:none;white-space:nowrap;
+    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+    @media(max-width:768px){
+      nav{padding:0 18px;}
+      .sec{padding:68px 20px;}
+      .about-inner{flex-direction:column;gap:36px;}
+      .about-badge-box{right:8px;bottom:-8px;}
+      .hero-deco{display:none;}
+      .form-row{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<nav>
+  <a class="nav-logo" href="#">J'adore</a>
+  <ul class="nav-links">
+    <li><a href="#menu">Меню</a></li>
+    <li><a href="#chatbot">AI-советник</a></li>
+    <li><a href="#about">О нас</a></li>
+    <li>
+      <button class="cart-nav-btn" onclick="toggleCart()" title="Корзина">
+        🧃
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-deco l">🍹🍹<br>🍹</div>
+  <div class="hero-deco r">🍹<br>🍹🍹</div>
+
+  <div class="hero-eyebrow">🌿 &nbsp;Авторский кафе-бар&nbsp; 🌿</div>
+  <h1>J'adore</h1>
+  <p class="hero-tagline">Освежающие напитки ручного приготовления — для каждого момента вашего дня</p>
+  <div class="dots-row">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div>
+  </div>
+  <div class="hero-actions">
+    <a href="#menu" class="btn-teal">Смотреть меню 🌿</a>
+    <a href="#chatbot" class="btn-ghost">Подобрать напиток 🍹</a>
+  </div>
+</section>
+
+<!-- ── MENU ── -->
+<section class="sec" id="menu">
+  <p class="sec-label">наше меню</p>
+  <h2 class="sec-title">Напитки дня</h2>
+  <div class="divider"><div class="div-line"></div><span class="div-gem">🌿</span><div class="div-line"></div></div>
+  <p class="sec-desc">Каждый напиток — маленькое путешествие вкуса, созданное с заботой</p>
+
+  <div class="cat-tabs" id="catTabs"></div>
+
+  <div id="menuPanels">
+    <div class="menu-loading">
+      <div class="loading-spinner"></div>
+      Загружаем меню...
+    </div>
+  </div>
+</section>
+
+<!-- ── CHATBOT ── -->
+<section class="sec" id="chatbot">
+  <p class="sec-label">персональный подбор</p>
+  <h2 class="sec-title">AI-советник</h2>
+  <div class="divider"><div class="div-line"></div><span class="div-gem">🍹</span><div class="div-line"></div></div>
+  <p class="sec-desc">Расскажите о своём настроении — подберём идеальный напиток</p>
+
+  <div class="chat-wrap">
+    <div class="chat-head">
+      <div class="chat-avatar">🌿</div>
+      <div class="chat-head-text">
+        <h3>J'adore AI</h3>
+        <p><span class="online-dot"></span>Готова помочь с выбором</p>
+      </div>
+    </div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="quick-area" id="quickArea"></div>
+    <div class="chat-input-row">
+      <input class="chat-in" id="chatIn" type="text" placeholder="Напишите ответ..."
+             onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="chat-send" id="chatSendBtn" onclick="sendChat()">➤</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="sec" id="about">
+  <div class="about-inner">
+    <div class="about-img-wrap">
+      <img class="about-img"
+           src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=700&q=80"
+           alt="J'adore кафе">
+      <div class="about-badge-box">
+        <span class="abn">🌿</span>
+        <span class="abt">НАТУРАЛЬНОЕ</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <h2>О J'adore</h2>
+      <p>J'adore — авторский кафе-бар, где каждый напиток приготовлен из свежих натуральных ингредиентов с вниманием к деталям.</p>
+      <p>Мы создаём напитки, которые освежают, восстанавливают и дарят радость — от классических лимонадов до экзотических смузи.</p>
+      <ul class="features">
+        <li><span class="feat-ico">🌿</span> Только свежие натуральные ингредиенты</li>
+        <li><span class="feat-ico">🍹</span> Более 25 видов напитков</li>
+        <li><span class="feat-ico">✨</span> Учитываем аллергии и вкусовые предпочтения</li>
+        <li><span class="feat-ico">🚀</span> Доставка по всему городу</li>
+        <li><span class="feat-ico">🕐</span> Работаем ежедневно с 9:00 до 21:00</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">J'adore</div>
+  <div class="dots-row" style="justify-content:center;margin:10px 0;">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div>
+  </div>
+  <div class="f-links">
+    <a href="#menu">Меню</a>
+    <a href="#chatbot">AI-советник</a>
+    <a href="#about">О нас</a>
+  </div>
+  <div class="f-divider"></div>
+  <p>г. Алматы &nbsp;•&nbsp; +7 (778) 428-06-24<br>Ежедневно: 09:00 – 21:00</p>
+  <p class="copy">© 2026 J'adore. Все права защищены.</p>
+</footer>
+
+<!-- ── CART SIDEBAR ── -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-top">
+    <h2>Корзина 🧃</h2>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Итого</span>
+      <span class="cart-total-val" id="cartTotal">0 ₸</span>
+    </div>
+    <button class="checkout-btn" onclick="openCheckout()">Оформить заказ 🌿</button>
+  </div>
+</div>
+
+<!-- ── ORDER MODAL ── -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <button class="modal-close-x" onclick="closeCheckout()">✕</button>
+
+    <div id="formView">
+      <h2>Оформление заказа</h2>
+      <p class="modal-sub">Заполните данные — мы свяжемся для подтверждения</p>
+
+      <div class="modal-order-summary" id="orderSummary"></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ваше имя *</label>
+          <input class="form-input" id="f-name" type="text" placeholder="Айгерим">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Телефон *</label>
+          <input class="form-input" id="f-phone" type="tel" placeholder="+7 (777) 000-00-00">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Адрес доставки *</label>
+        <input class="form-input" id="f-addr" type="text" placeholder="ул. Абая, 10, кв. 5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Дата и время доставки</label>
+        <input class="form-input" id="f-date" type="datetime-local">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пожелания</label>
+        <textarea class="form-textarea" id="f-note" placeholder="Например: без льда, меньше сахара..."></textarea>
+      </div>
+      <button class="btn-teal" style="width:100%;justify-content:center;display:flex;" onclick="placeOrder()">
+        Подтвердить заказ ✨
+      </button>
+    </div>
+
+    <div class="success-screen" id="successView">
+      <div class="success-icon">🌿</div>
+      <h3>Заказ принят!</h3>
+      <p>Спасибо за ваш заказ в J'adore 🍹<br>Мы перезвоним вам в ближайшее время<br>для подтверждения.</p>
+      <br>
+      <button class="btn-teal" style="margin-top:10px;" onclick="closeAndReset()">Вернуться на сайт</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════
+const API = 'http://localhost:8081';
+
+function fmt(n){ return Number(n).toLocaleString('ru-RU') + ' ₸'; }
+function time(){ return new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}); }
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ═══════════════════════════════════════════
+//  MENU — fetch from backend
+// ═══════════════════════════════════════════
+let allDrinks = []; // store for AI
+
+// Per-drink image map (exact names from DataLoader)
+const DRINK_IMAGES = {
+  // Лимонады
+  'Классический Мохито':  'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80',
+  'Клубника-Базилик':     'https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?w=600&q=80',
+  'Манго-Маракуйя':       'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&q=80',
+  'Огуречный с мятой':    'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80',
+  'Лавандовый лимонад':   'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=600&q=80',
+  // Холодный кофе
+  'Айс Латте':            'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80',
+  'Бамбл-кофе':           'https://www.nescafe.kz/sites/default/files/2024-11/shutterstock_2375838469_0.jpg',
+  'Эспрессо-Тоник':       'https://images.unsplash.com/photo-1596952954288-16862d37405b?w=600&q=80',
+  'Фраппучино Карамель':  'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80',
+  'Колд Брю':             'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=600&q=80',
+  // Смузи
+  'Зеленый Детокс':       'https://golden-flamingo.com.ua/wp-content/uploads/2024/01/detox-green-smoothie-get-inspired-everyday-4.jpg',
+  'Ягодный Микс':         'https://cdn.кухня.рф/preview/41d519fc-de32-4082-b751-1876ab1fb700.webp',
+  'Тропический рай':      'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=600&q=80',
+  'Банан-Клубника':       'https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600&q=80',
+  'Протеиновый Черничный':'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80',
+  // Холодный чай
+  'Классический Персик':  'https://images.unsplash.com/photo-1568909344668-6f14a07b56a0?w=600&q=80',
+  'Зеленый с жасмином':   'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&q=80',
+  'Каркаде с малиной':    'https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=600&q=80',
+  'Матча-Тоник':          'https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?w=600&q=80',
+  'Тайский синий чай':    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+  // Фреши
+  'Апельсиновый фреш':    'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80',
+  'Яблочный фреш':        'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=600&q=80',
+  'Морковно-яблочный':    'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=600&q=80',
+  'Грейпфрутовый':        'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&q=80',
+  'Ананасовый':           'https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?w=600&q=80',
+};
+
+// Category fallbacks
+const CAT_IMAGES = {
+  'Лимонады':     'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80',
+  'Холодный кофе':'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80',
+  'Смузи':        'https://images.unsplash.com/photo-1638176067076-41a21db8f6ae?w=600&q=80',
+  'Холодный чай': 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80',
+  'Фреши':        'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80',
+};
+
+const CAT_EMOJI = {
+  'Лимонады': '🍋',
+  'Холодный кофе': '☕',
+  'Смузи': '🥤',
+  'Холодный чай': '🍵',
+  'Фреши': '🍊',
+};
+
+async function loadMenu(){
+  try {
+    const res = await fetch(`${API}/api/drinks`);
+    if(!res.ok) throw new Error('Server error');
+    const drinks = await res.json();
+    allDrinks = drinks;
+    renderMenu(drinks);
+    initChat(); // now init AI with real menu
+  } catch(e) {
+    console.error(e);
+    document.getElementById('menuPanels').innerHTML =
+      `<div class="menu-loading">
+         <p style="font-size:2rem;margin-bottom:12px">⚠️</p>
+         <p>Не удалось подключиться к серверу.<br>
+         <small style="font-size:.82rem">Убедитесь, что Spring Boot запущен на порту 8081.</small></p>
+       </div>`;
+    // still init chat even if menu fails
+    initChat();
+  }
+}
+
+function renderMenu(drinks){
+  // Group by category
+  const grouped = {};
+  drinks.forEach(d => {
+    const catName = d.category ? d.category.name : 'Прочее';
+    if(!grouped[catName]) grouped[catName] = [];
+    grouped[catName].push(d);
+  });
+
+  const tabsEl = document.getElementById('catTabs');
+  const panelsEl = document.getElementById('menuPanels');
+  tabsEl.innerHTML = '';
+  panelsEl.innerHTML = '';
+
+  let first = true;
+  Object.entries(grouped).forEach(([catName, items]) => {
+    const id = 'cat-' + catName.replace(/\s+/g,'-');
+    const emoji = CAT_EMOJI[catName] || '🥤';
+
+    // Tab
+    const tab = document.createElement('button');
+    tab.className = 'cat-tab' + (first ? ' on' : '');
+    tab.textContent = emoji + ' ' + catName;
+    tab.onclick = () => switchCat(id, tab);
+    tabsEl.appendChild(tab);
+
+    // Panel
+    const panel = document.createElement('div');
+    panel.className = 'cat-panel' + (first ? ' on' : '');
+    panel.id = id;
+    panel.innerHTML = `<div class="cards">${items.map(d => drinkCard(d, catName)).join('')}</div>`;
+    panelsEl.appendChild(panel);
+
+    first = false;
+  });
+}
+
+function drinkCard(d, catName){
+  const img = DRINK_IMAGES[d.name] || CAT_IMAGES[catName] || CAT_IMAGES['Лимонады'];
+  return `
+    <div class="card"
+         data-id="${d.id}"
+         data-name="${d.name}"
+         data-price="${d.price}"
+         data-vol="${d.volume || ''}"
+         data-img="${img}">
+      <img class="card-img" src="${img}" alt="${d.name}">
+      <div class="card-body">
+        <div class="card-name">${d.name}</div>
+        <div class="card-sub">${catName}</div>
+        <div class="card-row">
+          <span class="card-price">${fmt(d.price)}</span>
+          <span class="card-wt">${d.volume || '—'}</span>
+        </div>
+        <button class="add-btn" onclick="addToCart(this)">🧃 В корзину</button>
+      </div>
+    </div>`;
+}
+
+function switchCat(id, btn){
+  document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// ═══════════════════════════════════════════
+//  CART
+// ═══════════════════════════════════════════
+let cart = [];
+
+function getCardData(btn){
+  const card = btn.closest('.card');
+  return {
+    id:    card.dataset.id,
+    name:  card.dataset.name,
+    price: parseFloat(card.dataset.price),
+    vol:   card.dataset.vol,
+    img:   card.dataset.img,
+    qty:   1
+  };
+}
+
+function addToCart(btn){
+  const item = getCardData(btn);
+  const ex = cart.find(c => c.id === item.id);
+  if(ex){ ex.qty++; }
+  else{ cart.push(item); }
+  btn.classList.add('added');
+  btn.textContent = '✓ Добавлено!';
+  setTimeout(() => { btn.classList.remove('added'); btn.textContent = '🧃 В корзину'; }, 1800);
+  updateCartUI();
+  showToast(`🌿 ${item.name} добавлен в корзину`);
+}
+
+function addToCartByName(name){
+  // Find the card in the DOM
+  const cards = [...document.querySelectorAll('.card')];
+  const card = cards.find(c => c.dataset.name === name);
+  if(!card){ showToast('Позиция не найдена в меню'); return; }
+  addToCart(card.querySelector('.add-btn'));
+}
+
+function changeQty(id, delta){
+  const item = cart.find(c => c.id === id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0) cart = cart.filter(c => c.id !== id);
+  updateCartUI();
+}
+
+function removeItem(id){
+  cart = cart.filter(c => c.id !== id);
+  updateCartUI();
+}
+
+function cartTotal(){
+  return cart.reduce((s,i) => s + i.price * i.qty, 0);
+}
+
+function updateCartUI(){
+  const count = cart.reduce((s,i) => s + i.qty, 0);
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = count;
+  badge.classList.toggle('show', count > 0);
+
+  const body   = document.getElementById('cartBody');
+  const footer = document.getElementById('cartFooter');
+
+  if(cart.length === 0){
+    body.innerHTML = `<div class="cart-empty">
+      <span class="big-icon">🧃</span>
+      <p>Корзина пуста...<br>Добавьте что-нибудь освежающее!</p>
+    </div>`;
+    footer.style.display = 'none';
+    return;
+  }
+
+  footer.style.display = 'block';
+  body.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <img class="cart-item-img" src="${item.img}" alt="${item.name}">
+      <div class="ci-info">
+        <div class="ci-name">${item.name}</div>
+        <div class="ci-price">${fmt(item.price)}</div>
+        <div style="font-size:.72rem;color:var(--text-lt)">${item.vol}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div class="ci-controls">
+          <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
+          <span class="qty-val">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
+        </div>
+        <button class="ci-remove" onclick="removeItem('${item.id}')" title="Удалить">🗑️</button>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('cartTotal').textContent = fmt(cartTotal());
+}
+
+function toggleCart(){
+  document.getElementById('cartOverlay').classList.toggle('open');
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.body.style.overflow =
+    document.getElementById('cartDrawer').classList.contains('open') ? 'hidden' : '';
+}
+
+// ═══════════════════════════════════════════
+//  CHECKOUT
+// ═══════════════════════════════════════════
+function openCheckout(){
+  if(cart.length === 0) return;
+  toggleCart();
+  buildOrderSummary();
+  document.getElementById('formView').style.display = 'block';
+  document.getElementById('successView').classList.remove('show');
+  document.getElementById('orderModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function buildOrderSummary(){
+  const sum = document.getElementById('orderSummary');
+  sum.innerHTML =
+    `<div class="mos-title">Ваш заказ</div>` +
+    cart.map(i => `<div class="mos-item">
+      <span>${i.name} × ${i.qty}</span>
+      <span>${fmt(i.price * i.qty)}</span>
+    </div>`).join('') +
+    `<div class="mos-total"><span>Итого</span><span>${fmt(cartTotal())}</span></div>`;
+}
+
+function closeCheckout(){
+  document.getElementById('orderModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function placeOrder(){
+  const name  = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const addr  = document.getElementById('f-addr').value.trim();
+
+  if(!name || !phone || !addr){
+    showToast('⚠️ Заполните обязательные поля');
+    return;
+  }
+
+  // Build payload matching the Order entity fields
+  // Unknown fields (deliveryDate, notes, itemsList) are safely ignored by Spring Boot
+  const payload = {
+    customerName: name,
+    phoneNumber:  phone,
+    address:      addr,
+    totalAmount:  cartTotal(),
+    // items is List<OrderItem> on backend — we leave it null;
+    // Spring/Jackson will simply not set it
+  };
+
+  try {
+    const res = await fetch(`${API}/api/orders`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload)
+    });
+
+    if(res.ok){
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('successView').classList.add('show');
+      cart = [];
+      updateCartUI();
+    } else {
+      showToast('❌ Ошибка сервера! Заказ не сохранился.');
+    }
+  } catch(err){
+    console.error(err);
+    showToast('❌ Сервер не отвечает. Вы запустили бэкенд?');
+  }
+}
+
+function closeAndReset(){
+  closeCheckout();
+  ['f-name','f-phone','f-addr','f-date','f-note']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+}
+
+// ═══════════════════════════════════════════
+//  AI CHATBOT
+// ═══════════════════════════════════════════
+let chatHistory = [];
+let aiWorking   = false;
+let chatInited  = false;
+
+function buildMenuText(){
+  if(!allDrinks.length) return 'Меню временно недоступно.';
+  const grouped = {};
+  allDrinks.forEach(d => {
+    const cat = d.category ? d.category.name : 'Прочее';
+    if(!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(d);
+  });
+  return Object.entries(grouped)
+    .map(([cat, items]) =>
+      `[${cat}]\n` + items.map(d => `- ${d.name} | ${d.volume || '?'} | ${Number(d.price).toLocaleString('ru-RU')} ₸`).join('\n'))
+    .join('\n\n');
+}
+
+function buildSystemPrompt(){
+  return `Ты — дружелюбный бариста-консультант кафе-бара J'adore. Помогаешь гостям выбрать напиток через короткий диалог.
+
+МЕНЮ (название | объём | цена):
+${buildMenuText()}
+
+АЛГОРИТМ: задай ровно 3 вопроса по одному, затем дай рекомендацию.
+Вопрос 1 — Цель/настроение: взбодриться, освежиться, что-то вкусное, лёгкое
+Вопрос 2 — Вкус: сладкий, кислый, горький/кофейный, нейтральный
+Вопрос 3 — Ограничения: нет ограничений, нельзя кофеин, нельзя молоко, без сахара
+
+После 3 ответов — строго используй этот формат:
+РЕКОМЕНДАЦИЯ: [точное название из меню]
+[2-3 предложения почему этот напиток подходит]
+ДОБАВИТЬ: [точное название из меню]
+
+ПРАВИЛА:
+- Один вопрос за раз, коротко и тепло, 1-2 эмодзи
+- Только русский язык
+- Только напитки из меню выше
+- Кофеин запрещён — исключи категорию "Холодный кофе"
+- ДОБАВИТЬ должен совпадать с названием в меню дословно`;
+}
+
+function initChat(){
+  if(chatInited) return;
+  chatInited = true;
+  addBotMsg('Привет! 👋 Я помогу подобрать напиток под ваше настроение.<br><br>Как вы сейчас себя чувствуете?');
+  setQuick(['Хочу взбодриться ⚡','Жарко, нужно освежиться 🧊','Хочу что-то вкусное 🍓','Хочу лёгкое и нейтральное 🌿']);
+}
+
+function addBotMsg(html, isReco){
+  const msgs = document.getElementById('chatMsgs');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg bot';
+  if(isReco){
+    wrap.innerHTML = `<div class="reco-card">${html}</div><div class="msg-time">${time()}</div>`;
+  } else {
+    wrap.innerHTML = `<div class="bubble">${html}</div><div class="msg-time">${time()}</div>`;
+  }
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMsg(text){
+  const msgs = document.getElementById('chatMsgs');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg user';
+  wrap.innerHTML = `<div class="bubble">${text}</div><div class="msg-time">${time()}</div>`;
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping(){
+  const msgs = document.getElementById('chatMsgs');
+  const wrap = document.createElement('div');
+  wrap.className = 'msg bot'; wrap.id = 'typing-ind';
+  wrap.innerHTML = `<div class="typing-bubble"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function removeTyping(){ const t = document.getElementById('typing-ind'); if(t) t.remove(); }
+
+function setQuick(opts){
+  const area = document.getElementById('quickArea');
+  area.innerHTML = opts.map(o =>
+    `<button class="qbtn" onclick="onQuick(this)" data-val="${o.replace(/"/g,'&quot;')}">${o}</button>`).join('');
+}
+function clearQuick(){ document.getElementById('quickArea').innerHTML = ''; }
+
+function onQuick(btn){ const v = btn.dataset.val; clearQuick(); processMsg(v); }
+
+async function sendChat(){
+  if(aiWorking) return;
+  const inp  = document.getElementById('chatIn');
+  const text = inp.value.trim();
+  if(!text) return;
+  inp.value = '';
+  clearQuick();
+  await processMsg(text);
+}
+
+async function processMsg(text){
+  if(aiWorking) return;
+  aiWorking = true;
+  document.getElementById('chatSendBtn').disabled = true;
+  addUserMsg(text);
+  chatHistory.push({ role:'user', content:text });
+  showTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model:      'claude-sonnet-4-20250514',
+        max_tokens: 500,
+        system:     buildSystemPrompt(),
+        messages:   chatHistory
+      })
+    });
+    if(!res.ok) throw new Error('API ' + res.status);
+    const data  = await res.json();
+    const reply = data.content[0].text.trim();
+    chatHistory.push({ role:'assistant', content:reply });
+    removeTyping();
+
+    const recoMatch = reply.match(/РЕКОМЕНДАЦИЯ:\s*(.+)/i);
+    const addMatch  = reply.match(/ДОБАВИТЬ:\s*(.+)/i);
+
+    if(recoMatch){
+      const itemName = addMatch ? addMatch[1].trim() : null;
+      let display = reply
+        .replace(/ДОБАВИТЬ:[^\n]*/gi, '')
+        .replace(/РЕКОМЕНДАЦИЯ:\s*(.+)/gi, (_, n) => `<strong>✨ Рекомендую: ${n.trim()}</strong>`)
+        .replace(/\n{2,}/g,'<br><br>').replace(/\n/g,'<br>').trim();
+
+      const drinkImg = itemName ? (DRINK_IMAGES[itemName] || '') : '';
+      const imgHtml  = drinkImg
+        ? `<img src="${drinkImg}" alt="${itemName}" style="width:100%;height:140px;object-fit:cover;border-radius:10px;margin-bottom:10px;">`
+        : '';
+
+      let recoHtml = `${imgHtml}<h4>🍹 Для вас!</h4><p>${display}</p>`;
+      if(itemName){
+        const safeName = itemName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        recoHtml += `<button class="reco-add-btn" onclick="addToCartByName('${safeName}')">🧃 Добавить в корзину</button>`;
+      }
+      addBotMsg(recoHtml, true);
+      setTimeout(() => setQuick(['Спасибо, возьму! 💚','Хочу другой вариант 🔄','Расскажи состав 🌿']), 350);
+    } else {
+      addBotMsg(reply.replace(/\n/g,'<br>'));
+      // contextual quick buttons after each bot question
+      const userTurns = chatHistory.filter(m => m.role==='user').length;
+      if(reply.includes('?')){
+        if(userTurns === 1)
+          setTimeout(() => setQuick(['Сладкий 🍓','Кислый 🍋','Горький/кофейный ☕','Нейтральный 💧']), 350);
+        else if(userTurns === 2)
+          setTimeout(() => setQuick(['Нет ограничений ✅','Нельзя кофеин ❌☕','Нельзя молоко 🥛','Меньше сахара 🚫']), 350);
+      }
+    }
+  } catch(e){
+    removeTyping();
+    addBotMsg('Что-то пошло не так 🌿 Попробуйте ещё раз.');
+    console.error(e);
+  }
+  aiWorking = false;
+  document.getElementById('chatSendBtn').disabled = false;
+}
+
+// ═══════════════════════════════════════════
+//  FLOATING DROPS ANIMATION
+// ═══════════════════════════════════════════
+(function(){
+  const hero = document.querySelector('.hero');
+  const colors = ['#2AA39A','#F07060','#F2B84B','#1A7C74','#D0EFEC'];
+  for(let i=0; i<10; i++){
+    const d = document.createElement('div');
+    d.className = 'drop';
+    const size = 8 + Math.random()*14;
+    d.style.cssText = `
+      left:${Math.random()*100}%;
+      width:${size}px; height:${size*1.4}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      opacity:.4;
+      animation-duration:${8+Math.random()*9}s;
+      animation-delay:${Math.random()*9}s;
+    `;
+    hero.appendChild(d);
+  }
+})();
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+updateCartUI();
+loadMenu();   // fetches drinks → renders menu → inits AI
+</script>
+</body>
+</html>
