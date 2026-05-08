@@ -204,7 +204,207 @@
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
     @media(max-width:768px){nav{padding:0 18px;}.sec{padding:68px 20px;}.about-inner{flex-direction:column;gap:36px;}.about-badge-box{right:8px;bottom:-8px;}.hero-deco{display:none;}.form-row{grid-template-columns:1fr;}}
-  </style>
+  
+    /* ── ADMIN STYLES ── */
+    #loginOverlay {
+      display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);
+      z-index:9000;align-items:center;justify-content:center;
+    }
+    #loginOverlay.active { display:flex; }
+    .login-box {
+      background:#fff;border-radius:20px;padding:40px;width:360px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;
+    }
+    .login-box h2 { color:#3D1C47;font-family:Georgia,serif;margin-bottom:8px;font-size:24px; }
+    .login-box p { color:#7A6145;font-size:13px;margin-bottom:24px; }
+    .login-input {
+      width:100%;padding:12px 16px;border:1.5px solid #ddd;border-radius:10px;
+      font-size:14px;margin-bottom:12px;box-sizing:border-box;outline:none;
+      transition:border-color .2s;
+    }
+    .login-input:focus { border-color:#6B3A7E; }
+    .login-btn {
+      width:100%;padding:13px;background:#3D1C47;color:#fff;border:none;
+      border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer;
+      transition:background .2s;margin-top:4px;
+    }
+    .login-btn:hover { background:#6B3A7E; }
+    .login-error { color:#C62828;font-size:13px;margin-top:8px;min-height:20px; }
+    .login-close { 
+      position:absolute;top:16px;right:20px;background:none;border:none;
+      font-size:22px;cursor:pointer;color:#fff;
+    }
+
+    /* Admin panel overlay */
+    #adminPanel {
+      display:none;position:fixed;inset:0;background:#f5f0e8;
+      z-index:8000;overflow-y:auto;
+    }
+    #adminPanel.active { display:block; }
+    .admin-header {
+      background:#3D1C47;color:#fff;padding:16px 32px;
+      display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:10;
+    }
+    .admin-header h1 { font-family:Georgia,serif;font-size:22px;margin:0;color:#E8B84B; }
+    .admin-header span { font-size:13px;opacity:.7; }
+    .admin-logout {
+      background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);
+      color:#fff;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;
+    }
+    .admin-body { max-width:1100px;margin:0 auto;padding:32px 24px; }
+    .admin-tabs { display:flex;gap:8px;margin-bottom:24px; }
+    .admin-tab {
+      padding:10px 24px;border-radius:10px;border:none;cursor:pointer;font-size:14px;
+      background:#fff;color:#7A6145;font-weight:600;transition:all .2s;
+    }
+    .admin-tab.active { background:#3D1C47;color:#fff; }
+    .admin-section { display:none; }
+    .admin-section.active { display:block; }
+    .admin-card {
+      background:#fff;border-radius:16px;padding:24px;margin-bottom:16px;
+      box-shadow:0 2px 12px rgba(0,0,0,0.06);
+    }
+    .admin-card h3 { color:#3D1C47;margin:0 0 16px;font-family:Georgia,serif; }
+    .admin-form-row { display:flex;gap:12px;flex-wrap:wrap; }
+    .admin-input {
+      flex:1;min-width:140px;padding:10px 14px;border:1.5px solid #ddd;
+      border-radius:8px;font-size:14px;outline:none;
+    }
+    .admin-input:focus { border-color:#6B3A7E; }
+    .admin-save-btn {
+      padding:10px 24px;background:#3D1C47;color:#fff;border:none;
+      border-radius:8px;cursor:pointer;font-size:14px;font-weight:bold;
+    }
+    .admin-save-btn:hover { background:#6B3A7E; }
+    .admin-table { width:100%;border-collapse:collapse;font-size:14px; }
+    .admin-table th { 
+      text-align:left;padding:10px 12px;background:#f8f4ee;
+      color:#7A6145;font-weight:600;border-bottom:2px solid #eee;
+    }
+    .admin-table td { padding:10px 12px;border-bottom:1px solid #f0eae0;color:#2A1A0E; }
+    .admin-table tr:hover td { background:#faf7f2; }
+    .admin-del-btn {
+      background:#fee;color:#C62828;border:1px solid #fcc;
+      padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px;
+    }
+    .admin-del-btn:hover { background:#fcc; }
+    .admin-stat { 
+      display:inline-block;background:#f8f4ee;border-radius:12px;
+      padding:16px 24px;margin-right:12px;margin-bottom:12px;
+    }
+    .admin-stat .num { font-size:32px;font-weight:bold;color:#3D1C47; }
+    .admin-stat .lbl { font-size:12px;color:#7A6145; }
+    /* Admin button in nav */
+    .admin-nav-btn {
+      background:none;border:1.5px solid #3D1C47;color:#3D1C47;
+      padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;
+      font-weight:600;transition:all .2s;
+    }
+    .admin-nav-btn:hover, .admin-nav-btn.logged { background:#3D1C47;color:#fff; }
+
+    
+    /* ── USER AUTH STYLES ── */
+    #userAuthOverlay {
+      display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);
+      z-index:9100;align-items:center;justify-content:center;
+    }
+    #userAuthOverlay.active { display:flex; }
+    .user-auth-box {
+      background:#fff;border-radius:20px;padding:40px;width:380px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);
+    }
+    .auth-tabs-row {
+      display:flex;gap:0;margin-bottom:28px;border-radius:12px;
+      overflow:hidden;border:1.5px solid #e8ddd0;
+    }
+    .auth-tab-btn {
+      flex:1;padding:11px;border:none;background:#f8f4ee;
+      color:#7A6145;font-size:14px;font-weight:600;cursor:pointer;
+      transition:all .2s;
+    }
+    .auth-tab-btn.active { background:#3D1C47;color:#fff; }
+    .auth-form { display:none; }
+    .auth-form.active { display:block; }
+    .auth-form h2 { color:#3D1C47;font-family:Georgia,serif;margin:0 0 6px;font-size:22px; }
+    .auth-form p { color:#7A6145;font-size:13px;margin:0 0 20px; }
+    .auth-input {
+      width:100%;padding:12px 16px;border:1.5px solid #ddd;border-radius:10px;
+      font-size:14px;margin-bottom:12px;box-sizing:border-box;outline:none;
+      transition:border-color .2s;font-family:inherit;
+    }
+    .auth-input:focus { border-color:#6B3A7E; }
+    .auth-submit-btn {
+      width:100%;padding:13px;background:#3D1C47;color:#fff;border:none;
+      border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer;
+      transition:background .2s;margin-top:4px;
+    }
+    .auth-submit-btn:hover { background:#6B3A7E; }
+    .auth-error { color:#C62828;font-size:13px;margin-top:8px;min-height:20px; }
+    .auth-success { color:#2E7D32;font-size:13px;margin-top:8px;min-height:20px; }
+    .auth-close-btn {
+      float:right;background:none;border:none;font-size:20px;
+      cursor:pointer;color:#999;margin:-8px -8px 0 0;
+    }
+
+    /* User nav button */
+    .user-nav-btn {
+      background:none;border:1.5px solid #C67C2C;color:#C67C2C;
+      padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;
+      font-weight:600;transition:all .2s;
+    }
+    .user-nav-btn:hover { background:#C67C2C;color:#fff; }
+    .user-nav-btn.logged { background:#C67C2C;color:#fff; }
+
+    /* My orders modal */
+    #myOrdersModal {
+      display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);
+      z-index:8500;align-items:center;justify-content:center;
+    }
+    #myOrdersModal.active { display:flex; }
+    .my-orders-box {
+      background:#fff;border-radius:20px;padding:32px;width:560px;
+      max-height:80vh;overflow-y:auto;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);
+    }
+    .my-orders-box h2 { color:#3D1C47;font-family:Georgia,serif;margin:0 0 20px; }
+    .order-card {
+      border:1.5px solid #e8ddd0;border-radius:12px;padding:16px;
+      margin-bottom:12px;background:#faf7f2;
+    }
+    .order-card-header {
+      display:flex;justify-content:space-between;align-items:center;
+      margin-bottom:8px;
+    }
+    .order-card-id { font-weight:bold;color:#3D1C47; }
+    .order-card-sum { font-weight:bold;color:#C67C2C;font-size:16px; }
+    .order-card-info { font-size:13px;color:#7A6145; }
+    .close-orders-btn {
+      display:block;margin:16px auto 0;padding:10px 28px;
+      background:#3D1C47;color:#fff;border:none;border-radius:10px;
+      cursor:pointer;font-size:14px;
+    }
+
+    /* User dropdown */
+    .user-dropdown {
+      position:relative;display:inline-block;
+    }
+    .user-dropdown-menu {
+      display:none;position:absolute;right:0;top:110%;
+      background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.15);
+      min-width:180px;z-index:9000;overflow:hidden;
+      border:1px solid #e8ddd0;
+    }
+    .user-dropdown-menu.open { display:block; }
+    .user-dropdown-item {
+      display:block;width:100%;padding:12px 16px;border:none;
+      background:none;cursor:pointer;font-size:14px;color:#2A1A0E;
+      text-align:left;transition:background .15s;
+    }
+    .user-dropdown-item:hover { background:#f8f4ee; }
+    .user-dropdown-item.danger { color:#C62828; }
+
+    </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
@@ -216,6 +416,16 @@
     <li><a href="#chatbot">AI-советник</a></li>
     <li><a href="#about">О нас</a></li>
     <li><button class="cart-nav-btn" onclick="toggleCart()">🧃<span class="cart-badge" id="cartBadge">0</span></button></li>
+    <li>
+      <div class="user-dropdown" id="userDropdownWrap">
+        <button class="user-nav-btn" id="userNavBtn" onclick="toggleUserDropdown()">👤 Войти</button>
+        <div class="user-dropdown-menu" id="userDropdownMenu">
+          <button class="user-dropdown-item" onclick="showMyOrders()">📋 Мои заказы</button>
+          <button class="user-dropdown-item danger" onclick="userLogout()">Выйти</button>
+        </div>
+      </div>
+    </li>
+    <li><button class="admin-nav-btn" onclick="openAdminPanel()">🔐 Админ</button></li>
   </ul>
 </nav>
 
@@ -333,29 +543,29 @@ function showToast(m){const t=document.getElementById('toast');t.textContent=m;t
 const DRINK_IMAGES={
   'Классический Мохито':'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80',
   'Клубника-Базилик':'https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?w=600&q=80',
-  'Манго-Маракуйя':'https://uzhindoma.ru/upload/resize_cache/iblock/bf7/1200_900_1/4yidn7trh2j0phsx2fsa0s21duv7tk4a.jpg',
-  'Огуречный с мятой':'https://www.photorecept.ru/wp-content/uploads/2021/05/ogurechnyj-napitok-s-limonom-i-mjatoj1.jpg',
+  'Манго-Маракуйя':'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&q=80',
+  'Огуречный с мятой':'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80',
   'Лавандовый лимонад':'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=600&q=80',
   'Айс Латте':'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80',
-  'Бамбл-кофе':'https://www.nescafe.kz/sites/default/files/2024-11/shutterstock_2375838469_0.jpg',
+  'Бамбл-кофе':'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&q=80',
   'Эспрессо-Тоник':'https://images.unsplash.com/photo-1596952954288-16862d37405b?w=600&q=80',
   'Фраппучино Карамель':'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80',
   'Колд Брю':'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=600&q=80',
-  'Зеленый Детокс':'https://grundig.ru/storage/images/blog/N4mw73d82MUIMrdFdBeHq843uPZ0tatnBW6esfon.jpeg',
-  'Ягодный Микс':'https://здоровое-питание.рф/upload/iblock/bb0/ao1b0u5vzgsgji3ju33g4rc244kvbsc7/lori_0005060368_bigwww-_1_.jpg',
+  'Зеленый Детокс':'https://images.unsplash.com/photo-1610970881699-d53de4b18aa4?w=600&q=80',
+  'Ягодный Микс':'https://images.unsplash.com/photo-1638176067076-41a21db8f6ae?w=600&q=80',
   'Тропический рай':'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=600&q=80',
   'Банан-Клубника':'https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600&q=80',
-  'Протеиновый Черничный':'https://storage.delikateska.ru/cache/4/6/851565b9-9dd4-48d1-9d7f-56e9dfe1cf03.jpg/w400h400qq.webp',
+  'Протеиновый Черничный':'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80',
   'Классический Персик':'https://images.unsplash.com/photo-1568909344668-6f14a07b56a0?w=600&q=80',
   'Зеленый с жасмином':'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&q=80',
   'Каркаде с малиной':'https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=600&q=80',
   'Матча-Тоник':'https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?w=600&q=80',
-  'Тайский синий чай':'https://resources.cdn-kaspi.kz/img/m/p/pd1/p64/61400232.jpeg?format=gallery-medium',
+  'Тайский синий чай':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
   'Апельсиновый фреш':'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80',
   'Яблочный фреш':'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=600&q=80',
   'Морковно-яблочный':'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=600&q=80',
-  'Грейпфрутовый':'https://www.osteria.ru/upload/iblock/a4d/qb9z3eznfk9jr9xkhn8v6gbqronenwdi/DSC06855.jpg',
-  'Ананасовый':'https://www.osteria.ru/upload/resize_cache/webp/iblock/e52/fp8cvcery7rcj5cee177az863d2jdjlh/DSC06849.webp',
+  'Грейпфрутовый':'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&q=80',
+  'Ананасовый':'https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?w=600&q=80',
 };
 const CAT_IMAGES={'Лимонады':'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80','Холодный кофе':'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80','Смузи':'https://images.unsplash.com/photo-1638176067076-41a21db8f6ae?w=600&q=80','Холодный чай':'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80','Фреши':'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80'};
 const CAT_EMOJI={'Лимонады':'🍋','Холодный кофе':'☕','Смузи':'🥤','Холодный чай':'🍵','Фреши':'🍊'};
@@ -439,7 +649,13 @@ async function placeOrder(){
   const name=document.getElementById('f-name').value.trim(),phone=document.getElementById('f-phone').value.trim(),addr=document.getElementById('f-addr').value.trim();
   if(!name||!phone||!addr){showToast('⚠️ Заполните обязательные поля');return;}
   try{
-    const r=await fetch(`${API}/api/orders`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customerName:name,phoneNumber:phone,address:addr,totalAmount:cartTotal()})});
+    const orderData={customerName:name,phoneNumber:phone,address:addr,totalAmount:cartTotal()};
+    const uid=getUserId();
+    if(uid) orderData.userId=parseInt(uid);
+    const headers={'Content-Type':'application/json'};
+    const token=getUserToken();
+    if(token) headers['Authorization']='Bearer '+token;
+    const r=await fetch(`${API}/api/orders`,{method:'POST',headers,body:JSON.stringify(orderData)});
     if(r.ok){document.getElementById('formView').style.display='none';document.getElementById('successView').classList.add('show');cart=[];updateCartUI();}
     else showToast('❌ Ошибка сервера!');
   }catch{showToast('❌ Сервер не отвечает.');}
@@ -652,5 +868,464 @@ function initChat2(){
 }
 updateCartUI();loadMenu();
 </script>
+
+  <!-- LOGIN OVERLAY -->
+  <div id="loginOverlay">
+    <button class="login-close" onclick="closeLogin()">✕</button>
+    <div class="login-box">
+      <h2>🔐 Вход для администратора</h2>
+      <p>Введите данные для доступа к панели управления</p>
+      <input class="login-input" id="loginField" type="text" placeholder="Логин" />
+      <input class="login-input" id="passField" type="password" placeholder="Пароль" 
+             onkeydown="if(event.key==='Enter')doLogin()" />
+      <button class="login-btn" onclick="doLogin()">Войти</button>
+      <div class="login-error" id="loginError"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel">
+    <div class="admin-header">
+      <div>
+        <h1>🛠 Панель администратора — J'adore</h1>
+        <span>Управление напитками и заказами</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <span style="font-size:13px;opacity:.8">👤 admin</span>
+        <button class="admin-logout" onclick="adminLogout()">Выйти</button>
+      </div>
+    </div>
+    <div class="admin-body">
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="adminTab('stats')">📊 Статистика</button>
+        <button class="admin-tab" onclick="adminTab('drinks')">🧃 Напитки</button>
+        <button class="admin-tab" onclick="adminTab('orders')">📋 Заказы</button>
+      </div>
+
+      <!-- STATS -->
+      <div class="admin-section active" id="tab-stats">
+        <div class="admin-card">
+          <h3>Обзор</h3>
+          <div id="statsArea">Загрузка...</div>
+        </div>
+      </div>
+
+      <!-- DRINKS -->
+      <div class="admin-section" id="tab-drinks">
+        <div class="admin-card">
+          <h3>Добавить новый напиток</h3>
+          <div class="admin-form-row">
+            <input class="admin-input" id="newDrinkName" placeholder="Название напитка" />
+            <input class="admin-input" id="newDrinkPrice" placeholder="Цена (₸)" type="number" />
+            <input class="admin-input" id="newDrinkVolume" placeholder="Объём (500мл)" />
+            <button class="admin-save-btn" onclick="addDrink()">+ Добавить</button>
+          </div>
+          <div id="addDrinkMsg" style="margin-top:8px;font-size:13px;"></div>
+        </div>
+        <div class="admin-card">
+          <h3>Список напитков</h3>
+          <table class="admin-table">
+            <thead><tr><th>ID</th><th>Название</th><th>Цена</th><th>Объём</th><th>Категория</th><th></th></tr></thead>
+            <tbody id="adminDrinksList"><tr><td colspan="6">Загрузка...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div class="admin-section" id="tab-orders">
+        <div class="admin-card">
+          <h3>Список заказов</h3>
+          <table class="admin-table">
+            <thead><tr><th>ID</th><th>Клиент</th><th>Телефон</th><th>Адрес</th><th>Сумма</th><th></th></tr></thead>
+            <tbody id="adminOrdersList"><tr><td colspan="6">Загрузка...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // ── ADMIN AUTH ──
+  const ADMIN_TOKEN_KEY='jadore_admin_token';
+  function getToken(){return sessionStorage.getItem(ADMIN_TOKEN_KEY);}
+  function setToken(t){sessionStorage.setItem(ADMIN_TOKEN_KEY,t);}
+  function clearToken(){sessionStorage.removeItem(ADMIN_TOKEN_KEY);}
+
+  function openLogin(){
+    document.getElementById('loginOverlay').classList.add('active');
+    setTimeout(()=>document.getElementById('loginField').focus(),100);
+  }
+  function closeLogin(){
+    document.getElementById('loginOverlay').classList.remove('active');
+    document.getElementById('loginError').textContent='';
+  }
+
+  async function doLogin(){
+    const login=document.getElementById('loginField').value.trim();
+    const password=document.getElementById('passField').value.trim();
+    if(!login||!password){document.getElementById('loginError').textContent='Заполните все поля';return;}
+    try{
+      const res=await fetch(`${API}/api/auth/login`,{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({login,password})
+      });
+      const data=await res.json();
+      if(data.success){
+        setToken(data.token);
+        closeLogin();
+        openAdminPanel();
+      } else {
+        document.getElementById('loginError').textContent=data.message||'Неверные данные';
+      }
+    }catch(e){
+      document.getElementById('loginError').textContent='Ошибка подключения к серверу';
+    }
+  }
+
+  function adminLogout(){
+    clearToken();
+    document.getElementById('adminPanel').classList.remove('active');
+    document.querySelector('.admin-nav-btn').classList.remove('logged');
+    document.querySelector('.admin-nav-btn').textContent='🔐 Админ';
+  }
+
+  async function openAdminPanel(){
+    const token=getToken();
+    if(!token){openLogin();return;}
+    // Verify token
+    try{
+      const res=await fetch(`${API}/api/auth/check`,{headers:{'Authorization':'Bearer '+token}});
+      const data=await res.json();
+      if(!data.authenticated){clearToken();openLogin();return;}
+    }catch(e){openLogin();return;}
+    
+    document.getElementById('adminPanel').classList.add('active');
+    document.querySelector('.admin-nav-btn').classList.add('logged');
+    document.querySelector('.admin-nav-btn').textContent='✅ Админ';
+    loadAdminStats();
+    loadAdminDrinks();
+    loadAdminOrders();
+  }
+
+  // ── ADMIN TABS ──
+  function adminTab(name){
+    document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.admin-tab').forEach(b=>b.classList.remove('active'));
+    document.getElementById('tab-'+name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // ── ADMIN DATA ──
+  async function loadAdminStats(){
+    try{
+      const [dr,or]=await Promise.all([
+        fetch(`${API}/api/drinks`).then(r=>r.json()),
+        fetch(`${API}/api/orders`).then(r=>r.json()).catch(()=>[])
+      ]);
+      const totalRevenue=(or||[]).reduce((s,o)=>s+(o.totalAmount||0),0);
+      document.getElementById('statsArea').innerHTML=`
+        <div class="admin-stat"><div class="num">${dr.length}</div><div class="lbl">Напитков в меню</div></div>
+        <div class="admin-stat"><div class="num">${(or||[]).length}</div><div class="lbl">Всего заказов</div></div>
+        <div class="admin-stat"><div class="num">${totalRevenue.toLocaleString()}₸</div><div class="lbl">Общая выручка</div></div>
+      `;
+    }catch(e){document.getElementById('statsArea').innerHTML='Ошибка загрузки';}
+  }
+
+  async function loadAdminDrinks(){
+    try{
+      const drinks=await fetch(`${API}/api/drinks`).then(r=>r.json());
+      const tbody=document.getElementById('adminDrinksList');
+      if(!drinks.length){tbody.innerHTML='<tr><td colspan="6">Нет напитков</td></tr>';return;}
+      tbody.innerHTML=drinks.map(d=>`
+        <tr>
+          <td>${d.id}</td>
+          <td><strong>${d.name}</strong></td>
+          <td>${d.price}₸</td>
+          <td>${d.volume}</td>
+          <td>${d.category?.name||'—'}</td>
+          <td><button class="admin-del-btn" onclick="deleteDrink(${d.id})">Удалить</button></td>
+        </tr>`).join('');
+    }catch(e){document.getElementById('adminDrinksList').innerHTML='<tr><td colspan="6">Ошибка</td></tr>';}
+  }
+
+  async function loadAdminOrders(){
+    try{
+      const orders=await fetch(`${API}/api/orders`).then(r=>r.json()).catch(()=>[]);
+      const tbody=document.getElementById('adminOrdersList');
+      if(!(orders||[]).length){tbody.innerHTML='<tr><td colspan="6">Нет заказов</td></tr>';return;}
+      tbody.innerHTML=orders.map(o=>`
+        <tr>
+          <td>${o.id}</td>
+          <td>${o.customerName||'—'}</td>
+          <td>${o.phoneNumber||'—'}</td>
+          <td>${o.address||'—'}</td>
+          <td><strong>${(o.totalAmount||0).toLocaleString()}₸</strong></td>
+          <td><button class="admin-del-btn" onclick="deleteOrder(${o.id})">Удалить</button></td>
+        </tr>`).join('');
+    }catch(e){document.getElementById('adminOrdersList').innerHTML='<tr><td colspan="6">Ошибка</td></tr>';}
+  }
+
+  async function addDrink(){
+    const name=document.getElementById('newDrinkName').value.trim();
+    const price=parseFloat(document.getElementById('newDrinkPrice').value);
+    const volume=document.getElementById('newDrinkVolume').value.trim();
+    const msg=document.getElementById('addDrinkMsg');
+    if(!name||!price||!volume){msg.style.color='#C62828';msg.textContent='Заполните все поля';return;}
+    try{
+      const res=await fetch(`${API}/api/drinks`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},
+        body:JSON.stringify({name,price,volume})
+      });
+      if(res.ok){
+        msg.style.color='#2E7D32';msg.textContent='✅ Напиток добавлен!';
+        document.getElementById('newDrinkName').value='';
+        document.getElementById('newDrinkPrice').value='';
+        document.getElementById('newDrinkVolume').value='';
+        loadAdminDrinks();loadAdminStats();
+        setTimeout(()=>msg.textContent='',3000);
+      } else { msg.style.color='#C62828';msg.textContent='Ошибка при добавлении'; }
+    }catch(e){msg.style.color='#C62828';msg.textContent='Ошибка подключения';}
+  }
+
+  async function deleteDrink(id){
+    if(!confirm('Удалить напиток #'+id+'?'))return;
+    try{
+      await fetch(`${API}/api/drinks/${id}`,{
+        method:'DELETE',headers:{'Authorization':'Bearer '+getToken()}
+      });
+      loadAdminDrinks();loadAdminStats();
+    }catch(e){alert('Ошибка удаления');}
+  }
+
+  async function deleteOrder(id){
+    if(!confirm('Удалить заказ #'+id+'?'))return;
+    try{
+      await fetch(`${API}/api/orders/${id}`,{
+        method:'DELETE',headers:{'Authorization':'Bearer '+getToken()}
+      });
+      loadAdminOrders();loadAdminStats();
+    }catch(e){alert('Ошибка удаления');}
+  }
+
+  // Check if already logged in on page load
+  window.addEventListener('load',()=>{
+    if(getToken()) {
+      document.querySelector('.admin-nav-btn').classList.add('logged');
+      document.querySelector('.admin-nav-btn').textContent='✅ Админ';
+    }
+  });
+  </script>
+
+
+  <!-- USER AUTH OVERLAY -->
+  <div id="userAuthOverlay">
+    <div class="user-auth-box">
+      <button class="auth-close-btn" onclick="closeUserAuth()">✕</button>
+      <div class="auth-tabs-row">
+        <button class="auth-tab-btn active" onclick="switchAuthTab('login')">Вход</button>
+        <button class="auth-tab-btn" onclick="switchAuthTab('register')">Регистрация</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div class="auth-form active" id="authFormLogin">
+        <h2>👋 Добро пожаловать!</h2>
+        <p>Войдите чтобы делать заказы и отслеживать их</p>
+        <input class="auth-input" id="loginUsername" type="text" placeholder="Логин" />
+        <input class="auth-input" id="loginPassword" type="password" placeholder="Пароль"
+               onkeydown="if(event.key==='Enter')doUserLogin()" />
+        <button class="auth-submit-btn" onclick="doUserLogin()">Войти</button>
+        <div class="auth-error" id="loginErr"></div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div class="auth-form" id="authFormRegister">
+        <h2>🌸 Создать аккаунт</h2>
+        <p>Регистрация займёт меньше минуты</p>
+        <input class="auth-input" id="regName" type="text" placeholder="Ваше имя" />
+        <input class="auth-input" id="regUsername" type="text" placeholder="Логин (латиницей)" />
+        <input class="auth-input" id="regPassword" type="password" placeholder="Пароль" />
+        <input class="auth-input" id="regPassword2" type="password" placeholder="Повторите пароль"
+               onkeydown="if(event.key==='Enter')doRegister()" />
+        <button class="auth-submit-btn" onclick="doRegister()">Зарегистрироваться</button>
+        <div class="auth-error" id="registerErr"></div>
+        <div class="auth-success" id="registerOk"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY ORDERS MODAL -->
+  <div id="myOrdersModal">
+    <div class="my-orders-box">
+      <h2>📋 Мои заказы</h2>
+      <div id="myOrdersList">Загрузка...</div>
+      <button class="close-orders-btn" onclick="document.getElementById('myOrdersModal').classList.remove('active')">Закрыть</button>
+    </div>
+  </div>
+
+  <script>
+  // ── USER AUTH ──
+  const USER_TOKEN_KEY='jadore_user_token';
+  const USER_NAME_KEY='jadore_user_name';
+  const USER_ID_KEY='jadore_user_id';
+
+  function getUserToken(){ return sessionStorage.getItem(USER_TOKEN_KEY); }
+  function getUserName(){ return sessionStorage.getItem(USER_NAME_KEY); }
+  function getUserId(){ return sessionStorage.getItem(USER_ID_KEY); }
+  function isUserLogged(){ return !!getUserToken(); }
+
+  function saveUserSession(token, name, id){
+    sessionStorage.setItem(USER_TOKEN_KEY, token);
+    sessionStorage.setItem(USER_NAME_KEY, name);
+    sessionStorage.setItem(USER_ID_KEY, id);
+  }
+  function clearUserSession(){
+    sessionStorage.removeItem(USER_TOKEN_KEY);
+    sessionStorage.removeItem(USER_NAME_KEY);
+    sessionStorage.removeItem(USER_ID_KEY);
+  }
+
+  function updateUserNavBtn(){
+    const btn=document.getElementById('userNavBtn');
+    const wrap=document.getElementById('userDropdownWrap');
+    if(isUserLogged()){
+      btn.textContent='👤 '+getUserName();
+      btn.classList.add('logged');
+    } else {
+      btn.textContent='👤 Войти';
+      btn.classList.remove('logged');
+    }
+  }
+
+  function toggleUserDropdown(){
+    if(!isUserLogged()){openUserAuth();return;}
+    document.getElementById('userDropdownMenu').classList.toggle('open');
+  }
+
+  document.addEventListener('click', e=>{
+    const wrap=document.getElementById('userDropdownWrap');
+    if(wrap && !wrap.contains(e.target)){
+      document.getElementById('userDropdownMenu').classList.remove('open');
+    }
+  });
+
+  function openUserAuth(){
+    document.getElementById('userAuthOverlay').classList.add('active');
+    setTimeout(()=>document.getElementById('loginUsername').focus(),100);
+  }
+  function closeUserAuth(){
+    document.getElementById('userAuthOverlay').classList.remove('active');
+    document.getElementById('loginErr').textContent='';
+    document.getElementById('registerErr').textContent='';
+    document.getElementById('registerOk').textContent='';
+  }
+
+  function switchAuthTab(tab){
+    document.querySelectorAll('.auth-tab-btn').forEach((b,i)=>b.classList.toggle('active',i===(tab==='login'?0:1)));
+    document.getElementById('authFormLogin').classList.toggle('active', tab==='login');
+    document.getElementById('authFormRegister').classList.toggle('active', tab==='register');
+  }
+
+  async function doUserLogin(){
+    const username=document.getElementById('loginUsername').value.trim();
+    const password=document.getElementById('loginPassword').value.trim();
+    const err=document.getElementById('loginErr');
+    if(!username||!password){err.textContent='Заполните все поля';return;}
+    try{
+      const res=await fetch(`${API}/api/users/login`,{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({username,password})
+      });
+      const data=await res.json();
+      if(data.success){
+        saveUserSession(data.token, data.name, data.userId);
+        closeUserAuth();
+        updateUserNavBtn();
+        showToast('Добро пожаловать, '+data.name+'! 🌸');
+      } else {
+        err.textContent=data.message||'Неверные данные';
+      }
+    }catch(e){ err.textContent='Ошибка подключения к серверу'; }
+  }
+
+  async function doRegister(){
+    const name=document.getElementById('regName').value.trim();
+    const username=document.getElementById('regUsername').value.trim();
+    const password=document.getElementById('regPassword').value.trim();
+    const password2=document.getElementById('regPassword2').value.trim();
+    const err=document.getElementById('registerErr');
+    const ok=document.getElementById('registerOk');
+    err.textContent='';ok.textContent='';
+    if(!name||!username||!password){err.textContent='Заполните все поля';return;}
+    if(password!==password2){err.textContent='Пароли не совпадают';return;}
+    if(password.length<4){err.textContent='Пароль минимум 4 символа';return;}
+    try{
+      const res=await fetch(`${API}/api/users/register`,{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({name,username,password})
+      });
+      const data=await res.json();
+      if(data.success){
+        saveUserSession(data.token, data.name, data.userId);
+        closeUserAuth();
+        updateUserNavBtn();
+        showToast('Аккаунт создан! Добро пожаловать, '+data.name+' 🎉');
+      } else {
+        err.textContent=data.message||'Ошибка регистрации';
+      }
+    }catch(e){ err.textContent='Ошибка подключения к серверу'; }
+  }
+
+  function userLogout(){
+    clearUserSession();
+    updateUserNavBtn();
+    document.getElementById('userDropdownMenu').classList.remove('open');
+    showToast('Вы вышли из аккаунта');
+  }
+
+  async function showMyOrders(){
+    document.getElementById('userDropdownMenu').classList.remove('open');
+    if(!isUserLogged()){openUserAuth();return;}
+    document.getElementById('myOrdersModal').classList.add('active');
+    document.getElementById('myOrdersList').innerHTML='<p style="color:#7A6145;text-align:center">Загрузка...</p>';
+    try{
+      const res=await fetch(`${API}/api/users/my-orders`,{
+        headers:{'Authorization':'Bearer '+getUserToken()}
+      });
+      const orders=await res.json();
+      if(!orders.length){
+        document.getElementById('myOrdersList').innerHTML='<p style="color:#7A6145;text-align:center">У вас пока нет заказов</p>';
+        return;
+      }
+      document.getElementById('myOrdersList').innerHTML=orders.map(o=>`
+        <div class="order-card">
+          <div class="order-card-header">
+            <span class="order-card-id">Заказ #${o.id}</span>
+            <span class="order-card-sum">${(o.totalAmount||0).toLocaleString()}₸</span>
+          </div>
+          <div class="order-card-info">📍 ${o.address||'—'} &nbsp;|&nbsp; 📞 ${o.phoneNumber||'—'}</div>
+        </div>`).join('');
+    }catch(e){
+      document.getElementById('myOrdersList').innerHTML='<p style="color:#C62828">Ошибка загрузки заказов</p>';
+    }
+  }
+
+  function showToast(msg){
+    let t=document.getElementById('toastMsg');
+    if(!t){
+      t=document.createElement('div');t.id='toastMsg';
+      t.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#3D1C47;color:#fff;padding:12px 28px;border-radius:12px;font-size:14px;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,0.2);transition:opacity .3s;';
+      document.body.appendChild(t);
+    }
+    t.textContent=msg;t.style.opacity='1';
+    clearTimeout(t._timer);
+    t._timer=setTimeout(()=>t.style.opacity='0',3000);
+  }
+
+  // Init on load
+  window.addEventListener('load', updateUserNavBtn);
+  </script>
+
 </body>
 </html>

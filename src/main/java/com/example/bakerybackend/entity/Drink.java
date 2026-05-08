@@ -11,8 +11,8 @@ public class Drink {
 
     private String name;
     private Double price;
-    private String volume; // напр. "500 мл"
-    public Drink() {} // Пустой конструктор для Hibernate
+    private String volume;
+    public Drink() {}
 
     public Drink(String name, Double price, String volume, Category category) {
         this.name = name;

@@ -1,27 +1,43 @@
 package com.example.bakerybackend;
 
-import com.example.bakerybackend.entity.Category;
-import com.example.bakerybackend.entity.Drink;
-import com.example.bakerybackend.repository.CategoryRepository;
-import com.example.bakerybackend.repository.DrinkRepository;
+import com.example.bakerybackend.entity.*;
+import com.example.bakerybackend.repository.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @Component
 public class DataLoader implements CommandLineRunner {
+
     private final DrinkRepository drinkRepo;
     private final CategoryRepository catRepo;
+    private final AdminUserRepository adminRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    // Конструктор
-    public DataLoader(DrinkRepository drinkRepo, CategoryRepository catRepo) {
+    public DataLoader(DrinkRepository drinkRepo,
+                      CategoryRepository catRepo,
+                      AdminUserRepository adminRepo,
+                      PasswordEncoder passwordEncoder) {
         this.drinkRepo = drinkRepo;
         this.catRepo = catRepo;
+        this.adminRepo = adminRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) {
+
+        if (adminRepo.count() == 0) {
+            adminRepo.save(new AdminUser(
+                    "admin",
+                    passwordEncoder.encode("jadore2026"),
+                    "ADMIN"
+            ));
+            System.out.println("✅ Администратор создан: admin / jadore2024");
+        }
+
+
         if (catRepo.count() == 0) {
             Category lim = new Category(); lim.setName("Лимонады");
             Category cof = new Category(); cof.setName("Холодный кофе");
